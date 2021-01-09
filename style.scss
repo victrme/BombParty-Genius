@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;900&display=swap');
+
+body {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj48ZGVmcz48cGF0dGVybiBpZD0icGF0dGVybiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgNDAsNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSgxMzUpICI+PHJlY3QgaWQ9InBhdHRlcm4tYmFja2dyb3VuZCIgd2lkdGg9IjQwMCUiIGhlaWdodD0iNDAwJSIgZmlsbD0icmdiYSg0MiwgNjcsIDEwMSwxKSIgc3R5bGU9Ii0tZGFya3JlYWRlci1pbmxpbmUtZmlsbDojMzIzZjRmOyI+PC9yZWN0PiA8Y2lyY2xlIGZpbGw9InJnYmEoNDQsIDgyLCAxMzAsMSkiIGN4PSIyMCIgY3k9IjIwIiByPSIyIj48L2NpcmNsZT48Y2lyY2xlIGZpbGw9InJnYmEoNDQsIDgyLCAxMzAsMSkiIGN4PSIyMCIgY3k9Ii0yMCIgcj0iMiI+PC9jaXJjbGU+PGNpcmNsZSBmaWxsPSJyZ2JhKDQzLCAxMDgsIDE3NiwxKSIgY3g9IjAiIGN5PSIyMCIgcj0iMSI+PC9jaXJjbGU+PGNpcmNsZSBmaWxsPSJyZ2JhKDQzLCAxMDgsIDE3NiwxKSIgY3g9IjIwIiBjeT0iMCIgcj0iMSI+PC9jaXJjbGU+PGNpcmNsZSBmaWxsPSJyZ2JhKDQzLCAxMDgsIDE3NiwxKSIgY3g9IjQwIiBjeT0iMjAiIHI9IjEiPjwvY2lyY2xlPjxjaXJjbGUgZmlsbD0icmdiYSg0MywgMTA4LCAxNzYsMSkiIGN4PSIyMCIgY3k9IjQwIiByPSIxIj48L2NpcmNsZT48L3BhdHRlcm4+ICA8L2RlZnM+IDxyZWN0IGZpbGw9InVybCgjcGF0dGVybikiIGhlaWdodD0iMTAwJSIgd2lkdGg9IjEwMCUiPjwvcmVjdD48L3N2Zz4=');
+    font-family: 'Source Code Pro', monospace;
+    margin: 0;
+    background-repeat: repeat;
+    background-size: 50%;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+
+    @keyframes loading {
+        0% {
+            color: lightcoral;
+        }
+        100% {
+            color: lightyellow;
+        }
+    }
+
+    p {
+        display: inline-block;
+        margin: 0;
+        padding: 3vw;
+        color: white;
+        font-size: 5vw;
+        line-height: 5vw;
+        font-weight: bold;
+        text-align: center;
+        border: none;
+        word-break: break-all;
+
+        &.chars {
+            color: lightgreen;
+            opacity: 1;
+            transition: opacity 0.5s;
+
+            &.loading {
+                animation: loading 0.5s linear infinite alternate forwards;
+                opacity: 0;
+            }
+        }
+
+        &.resultat span:nth-child(2) {
+            color: lightgreen;
+        }
+    }
+}
+
+.credit {
+    position: fixed;
+    bottom: 1em;
+    padding: 1em;
+    width: calc(100% - 2em);
+    text-align: center;
+    color: white;
+}
+
+.credit a {
+    color: lightsalmon;
+}
+
+@media screen and (max-width: 700px) {
+    main p {
+        padding: 10px;
+        font-size: 25px;
+        line-height: 25px;
+    }
+
+    .credit {
+        font-size: 0.7em;
+    }
+}
