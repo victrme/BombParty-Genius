@@ -13,7 +13,7 @@ window.onload = () => {
 
     document.addEventListener('keydown', (e) => {
         if (e.key === ' ') {
-            chars = '&nbsp;'
+            chars = ''
         } else if (
             e.key === 'Backspace' ||
             (e.key.match(/[a-zA-Z]/g) !== null && e.key.length < 2)
