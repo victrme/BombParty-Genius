@@ -5,7 +5,6 @@
     "main": "index.js",
     "icon": "favicon.ico",
     "scripts": {
-        "build": "parcel build ./index.html --no-source-maps --no-content-hash",
         "start": "parcel ./index.html --no-source-maps --https"
     },
     "keywords": [],
