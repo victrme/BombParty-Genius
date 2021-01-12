@@ -11,4 +11,4 @@ Parce qu'on a des fois besoin d'impressionner ses amis.
 * Aller sur [victor-azevedo.me/bombparty-genius](https://victor-azevedo.me/bombparty-genius)  
 * Attendre que le dictionnaire charge (4.6MB)
 * Ecrire n'importe où pour chercher un mot
-* `espace` pour effacer les charactères
+* Attendre 2s supprime l'ancienne recherche
