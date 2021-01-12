@@ -5,7 +5,6 @@ window.onload = () => {
     const charsDOM = document.querySelector('.chars')
     const resultatDOM = document.querySelector('.resultat')
     let chars = ''
-    let found = false
     let tries = 0
 
     charsDOM.classList.remove('loading')
@@ -25,40 +24,48 @@ window.onload = () => {
                     : chars + e.key.toLocaleLowerCase()
 
             if (chars.length > 1) {
-                while (!found && tries < dict.length) {
-                    // Trouve un mot aléatoire dans le dictionnaire
-                    const reponse =
-                        dict[Math.floor(Math.random() * Math.floor(dict.length))]
+                let arrayDeReponses: string[] = []
 
-                    if (reponse.includes(chars)) {
-                        found = true
-                        resultatDOM.innerHTML = ''
+                // Trouve une liste de mots aléatoire dans le dictionnaire
+                // Comprenant les chars choisis
+                while (tries < dict.length) {
+                    const rand = (m: number) => Math.floor(Math.random() * Math.floor(m))
+                    const reponse = dict[rand(dict.length)]
 
-                        // Coupe le résultat en 3 pour highlight l'input
-                        const arrStr = [
-                            reponse.slice(0, reponse.indexOf(chars)),
-                            chars,
-                            reponse.slice(
-                                reponse.indexOf(chars) + chars.length,
-                                reponse.length
-                            ),
-                        ]
-
-                        // Affiche les 3
-                        arrStr.forEach((str) => {
-                            const span = document.createElement('span')
-                            span.innerText = str
-                            resultatDOM.appendChild(span)
-                        })
-                    }
-
+                    if (reponse.includes(chars)) arrayDeReponses.push(reponse)
                     tries++
-
-                    if (tries === dict.length) resultatDOM.innerHTML = '...'
                 }
 
-                found = false
                 tries = 0
+                resultatDOM.innerHTML = ''
+
+                if (arrayDeReponses.length === 0) {
+                    resultatDOM.innerHTML = '...'
+                } else {
+                    console.log(arrayDeReponses.length)
+
+                    // Cherche le mot le plus petit
+                    const filtered = arrayDeReponses.reduce((prev, curr) =>
+                        prev.length <= curr.length ? prev : curr
+                    )
+
+                    // Coupe le résultat en 3 pour highlight l'input
+                    const arrStr = [
+                        filtered.slice(0, filtered.indexOf(chars)),
+                        chars,
+                        filtered.slice(
+                            filtered.indexOf(chars) + chars.length,
+                            filtered.length
+                        ),
+                    ]
+
+                    // Affiche les 3
+                    arrStr.forEach((str) => {
+                        const span = document.createElement('span')
+                        span.innerText = str
+                        resultatDOM.appendChild(span)
+                    })
+                }
             }
         }
 
