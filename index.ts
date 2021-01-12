@@ -6,17 +6,22 @@ window.onload = () => {
     const resultatDOM = document.querySelector('.resultat')
     let chars = ''
     let tries = 0
+    let keypressTime = 0
 
     charsDOM.classList.remove('loading')
     charsDOM.innerHTML = 'prêt !'
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === ' ') {
-            chars = ''
-        } else if (
+        //
+        // Efface les anciens chars après 2s
+        chars = keypressTime > 0 && Date.now() - keypressTime > 2000 ? '' : chars
+        keypressTime = Date.now()
+
+        const goodKey =
             e.key === 'Backspace' ||
             (e.key.match(/[a-zA-Z]/g) !== null && e.key.length < 2)
-        ) {
+
+        if (goodKey) {
             // Ajoute ou Enleve un charactère
             chars =
                 e.key === 'Backspace'
@@ -67,6 +72,8 @@ window.onload = () => {
                     })
                 }
             }
+        } else if (e.key === ' ') {
+            chars = ''
         }
 
         charsDOM.innerHTML = chars.length > 0 ? chars : '&nbsp;'
