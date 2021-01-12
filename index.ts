@@ -4,12 +4,24 @@ window.onload = () => {
     const dict: any = words
     const charsDOM = document.querySelector('.chars')
     const resultatDOM = document.querySelector('.resultat')
+    const tutorialDOM = document.querySelector('.tutorial')
     let chars = ''
-    let tries = 0
+    let count = 0
     let keypressTime = 0
 
+    // Fini chargement
     charsDOM.classList.remove('loading')
     charsDOM.innerHTML = 'prêt !'
+
+    // Charge le tuto si pas déjà supprimé
+    if (!localStorage.closeTutorial) {
+        tutorialDOM.className = 'tutorial open'
+
+        document.querySelector('.tutorial button').addEventListener('click', () => {
+            localStorage.closeTutorial = true
+            tutorialDOM.className = 'tutorial'
+        })
+    }
 
     document.addEventListener('keydown', (e) => {
         //
@@ -17,11 +29,13 @@ window.onload = () => {
         chars = keypressTime > 0 && Date.now() - keypressTime > 2000 ? '' : chars
         keypressTime = Date.now()
 
-        const goodKey =
+        // Bonnes keys a press
+        if (
             e.key === 'Backspace' ||
             (e.key.match(/[a-zA-Z]/g) !== null && e.key.length < 2)
-
-        if (goodKey) {
+        ) {
+            //
+            //
             // Ajoute ou Enleve un charactère
             chars =
                 e.key === 'Backspace'
@@ -33,47 +47,38 @@ window.onload = () => {
 
                 // Trouve une liste de mots aléatoire dans le dictionnaire
                 // Comprenant les chars choisis
-                while (tries < dict.length) {
-                    const rand = (m: number) => Math.floor(Math.random() * Math.floor(m))
-                    const reponse = dict[rand(dict.length)]
-
-                    if (reponse.includes(chars)) arrayDeReponses.push(reponse)
-                    tries++
+                while (count < dict.length) {
+                    if (dict[count].includes(chars)) arrayDeReponses.push(dict[count])
+                    count++
                 }
 
-                tries = 0
+                count = 0
                 resultatDOM.innerHTML = ''
 
                 if (arrayDeReponses.length === 0) {
                     resultatDOM.innerHTML = '...'
                 } else {
-                    console.log(arrayDeReponses.length)
-
                     // Cherche le mot le plus petit
                     const filtered = arrayDeReponses.reduce((prev, curr) =>
                         prev.length <= curr.length ? prev : curr
                     )
 
                     // Coupe le résultat en 3 pour highlight l'input
-                    const arrStr = [
+                    // Puis l'affiche en span
+                    const array = [
                         filtered.slice(0, filtered.indexOf(chars)),
                         chars,
                         filtered.slice(
                             filtered.indexOf(chars) + chars.length,
                             filtered.length
                         ),
-                    ]
-
-                    // Affiche les 3
-                    arrStr.forEach((str) => {
+                    ].forEach((str) => {
                         const span = document.createElement('span')
                         span.innerText = str
                         resultatDOM.appendChild(span)
                     })
                 }
             }
-        } else if (e.key === ' ') {
-            chars = ''
         }
 
         charsDOM.innerHTML = chars.length > 0 ? chars : '&nbsp;'
