@@ -1,49 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" href="style.scss" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#333333" />
+		<meta name="theme-color" content="#333333" />
+		<link rel="stylesheet" href="style.scss" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
 
-        <title>BombParty 💣🤓 Genius</title>
-        <script src="index.ts" defer></script>
-    </head>
-    <body>
-        <main>
-            <p class="chars loading">&nbsp;</p>
-            <p class="resultat">BombParty 💣🤓 Genius</p>
-        </main>
+		<title>BombParty Genius</title>
+		<script src="index.ts" defer></script>
+	</head>
+	<body>
+		<main>
+			<input type="text" name="chars_input" pattern="[A-Za-z]+" class="chars_input loading" />
+			<p class="resultat">Tapez votre syllabe !</p>
+		</main>
 
-        <div class="note">
-            <div class="tutorial">
-                <div class="text">
-                    <li>écris n'importe où, le plus petit mot est trouvé</li>
-                    <li>Attendre 2s supprime l'ancienne recherche</li>
-                    <li><code>← retour</code> pour effacer un charactère</li>
-                </div>
-                <button>j'ai compris</button>
-            </div>
-            <p class="credit">
-                source disponible sur
-                <a href="https://github.com/victorazevedo-me/BombParty-Genius">github</a>
-                - merci à
-                <a href="https://github.com/words/an-array-of-french-words"
-                    >zeke & wooorm</a
-                >
-            </p>
-        </div>
+		<div class="note">
+			<div class="tutorial">
+				<div class="text">
+					<li class="tuto_input">écris n'importe où, le plus petit mot est trouvé</li>
+					<li><code>← retour</code> après 2s supprime la recherche</li>
+					<li><code>espace</code> affiche d'autres résultats</li>
+				</div>
+				<button>j'ai compris</button>
+			</div>
+			<p class="credit">
+				source disponible sur
+				<a href="https://github.com/victorazevedo-me/BombParty-Genius">github</a>
+				- merci à
+				<a href="https://github.com/words/an-array-of-french-words">zeke & wooorm</a>
+			</p>
+		</div>
 
-        <script>
-            setTimeout(() => {
-                const dom = document.querySelector('.chars')
+		<script>
+			setTimeout(() => {
+				const dom = document.querySelector(".chars_input")
 
-                if (dom.classList.contains('loading')) {
-                    dom.style.opacity = 1
-                    dom.innerHTML = 'le dico charge'
-                }
-            }, 1000)
-        </script>
-    </body>
+				if (dom.classList.contains("loading")) {
+					dom.style.opacity = 1
+					dom.innerHTML = "le dico charge"
+				}
+			}, 1000)
+		</script>
+	</body>
 </html>

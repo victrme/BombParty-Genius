@@ -1,86 +1,123 @@
-import words from 'an-array-of-french-words'
+import words from "an-array-of-french-words"
 
 window.onload = () => {
-    const dict: any = words
-    const charsDOM = document.querySelector('.chars')
-    const resultatDOM = document.querySelector('.resultat')
-    const tutorialDOM = document.querySelector('.tutorial')
-    let chars = ''
-    let count = 0
-    let keypressTime = 0
+	const dict: any = words
+	const resultatDOM = document.querySelector(".resultat")
+	const tutorialDOM = document.querySelector(".tutorial")
+	const tutoinputDOM = tutorialDOM.querySelector(".tuto_input")
+	const input = <HTMLInputElement>document.querySelector(".chars_input")
+	const isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
 
-    // Fini chargement
-    charsDOM.classList.remove('loading')
-    charsDOM.innerHTML = 'prêt !'
+	let count = 0
+	let repCount = 0
+	let keypressTime = 0
+	let lastLength = 0
+	let arrayDeReponses: string[] = []
 
-    // Charge le tuto si pas déjà supprimé
-    if (!localStorage.closeTutorial) {
-        tutorialDOM.className = 'tutorial open'
+	// Fini chargement
+	input.classList.remove("loading")
+	input.value = ""
 
-        document.querySelector('.tutorial button').addEventListener('click', () => {
-            localStorage.closeTutorial = true
-            tutorialDOM.className = 'tutorial'
-        })
-    }
+	if (isMobile) {
+		tutoinputDOM.innerText = "écris en haut, le plus petit mot est trouvé"
+		input.classList.add('onMobile')
+	}
 
-    document.addEventListener('keydown', (e) => {
-        //
-        // Efface les anciens chars après 2s
-        chars = keypressTime > 0 && Date.now() - keypressTime > 2000 ? '' : chars
-        keypressTime = Date.now()
+	// Charge le tuto si pas déjà supprimé
+	if (!localStorage.closeTutorial) {
+		tutorialDOM.className = "tutorial open"
 
-        // Bonnes keys a press
-        if (
-            e.key === 'Backspace' ||
-            (e.key.match(/[a-zA-Z]/g) !== null && e.key.length < 2)
-        ) {
-            //
-            //
-            // Ajoute ou Enleve un charactère
-            chars =
-                e.key === 'Backspace'
-                    ? chars.slice(0, -1)
-                    : chars + e.key.toLocaleLowerCase()
+		document.querySelector(".tutorial button").addEventListener("click", () => {
+			localStorage.closeTutorial = true
+			tutorialDOM.className = "tutorial"
+		})
+	}
 
-            if (chars.length > 1) {
-                let arrayDeReponses: string[] = []
+	function searchForWords(chars: string) {
+		keypressTime = Date.now()
 
-                // Trouve une liste de mots aléatoire dans le dictionnaire
-                // Comprenant les chars choisis
-                while (count < dict.length) {
-                    if (dict[count].includes(chars)) arrayDeReponses.push(dict[count])
-                    count++
-                }
+		if (chars.length > 1) {
+			const tempDict = arrayDeReponses.length > 0 && chars.length > lastLength ? arrayDeReponses : dict
+			let tempReponses: string[] = []
 
-                count = 0
-                resultatDOM.innerHTML = ''
+			if (tempDict.length > 0) {
+				while (count < tempDict.length) {
+					if (tempDict[count].includes(chars)) tempReponses.push(tempDict[count])
+					count++
+				}
+			}
 
-                if (arrayDeReponses.length === 0) {
-                    resultatDOM.innerHTML = '...'
-                } else {
-                    // Cherche le mot le plus petit
-                    const filtered = arrayDeReponses.reduce((prev, curr) =>
-                        prev.length <= curr.length ? prev : curr
-                    )
+			count = 0
+			repCount = 0
+			lastLength = chars.length
+			resultatDOM.innerText = ""
+			arrayDeReponses = tempReponses.sort((a, b) => a.length - b.length)
+			displayFoundWord(arrayDeReponses[0], chars)
+		}
+	}
 
-                    // Coupe le résultat en 3 pour highlight l'input
-                    // Puis l'affiche en span
-                    const array = [
-                        filtered.slice(0, filtered.indexOf(chars)),
-                        chars,
-                        filtered.slice(
-                            filtered.indexOf(chars) + chars.length,
-                            filtered.length
-                        ),
-                    ].forEach((str) => {
-                        const span = document.createElement('span')
-                        span.innerText = str
-                        resultatDOM.appendChild(span)
-                    })
-                }
-            }
-        }
+	// Coupe le résultat en 3 pour highlight l'input
+	function displayFoundWord(result: string, chars?: string) {
+		resultatDOM.innerText = ""
 
-        charsDOM.innerHTML = chars.length > 0 ? chars : '&nbsp;'
-    })
+		if (result !== undefined) {
+			const searchChar = chars !== undefined ? chars : input.value
+			const splitWord = [
+				result.slice(0, result.indexOf(searchChar)),
+				searchChar,
+				result.slice(result.indexOf(searchChar) + searchChar.length, result.length),
+			]
+
+			splitWord.forEach((str) => {
+				const span = document.createElement("span")
+				span.innerText = str
+				resultatDOM.appendChild(span)
+			})
+		} else {
+			resultatDOM.innerText = " ... "
+		}
+	}
+
+	function findMoreWords() {
+		repCount++
+		const repsLen = arrayDeReponses.length
+		const addDots = () =>
+			Array((repCount - repsLen) % 4)
+				.fill(".")
+				.join("")
+
+		if (repsLen > 0)
+			repCount >= repsLen
+				? (resultatDOM.innerText = "plus de mots" + addDots())
+				: displayFoundWord(arrayDeReponses[repCount])
+	}
+
+	// Efface les anciens chars après 2s
+	// keydown pour éviter un effacement saccadé
+	input.onkeydown = (e) => {
+		const retourApresDeuxSec = keypressTime > 0 && Date.now() - keypressTime > 2000 && e.keyCode === 8
+
+		if (retourApresDeuxSec) {
+			arrayDeReponses = []
+			resultatDOM.innerText = "encore une fois !"
+			input.value = ""
+		}
+	}
+
+	input.onkeypress = (e) => {
+		const key = e.keyCode
+		const espace = key === 32
+		const lettre = (key > 96 && key < 122) || (key > 223 && key < 246)
+
+		if (espace) {
+			findMoreWords()
+			return false
+		} else if (lettre) {
+			searchForWords(input.value + e.key)
+		} else {
+			return false
+		}
+	}
+
+	document.addEventListener("keypress", () => input.focus())
 }
