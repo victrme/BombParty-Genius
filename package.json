@@ -1,11 +1,12 @@
 {
     "name": "bombparty-genius",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "description": "Ne perds plus jamais une partie de BombParty",
     "main": "index.js",
-    "icon": "favicon.ico",
+    "icon": "android-chrome-512x512.png",
     "scripts": {
-        "start": "parcel ./index.html --no-source-maps --https"
+		"start": "parcel ./index.html",
+        "build": "parcel build ./index.html --no-source-maps --no-content-hash --public-url './'"
     },
     "keywords": [],
     "author": "",
