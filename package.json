@@ -2,11 +2,11 @@
 	"name": "bombparty-genius",
 	"version": "0.2.1",
 	"description": "Ne perds plus jamais une partie de BombParty",
-	"main": "index.js",
+	"main": "index.html",
 	"icon": "android-chrome-512x512.png",
 	"scripts": {
 		"start": "parcel ./index.html",
-		"build": "parcel build ./index.html --no-source-maps --no-content-hash --public-url './'"
+		"build": "parcel build ./index.html --no-source-maps --no-content-hash --public-url './' --dist-dir './dist'"
 	},
 	"keywords": [],
 	"author": "victor azevedo",

@@ -1,12 +1,12 @@
-import words from "an-array-of-french-words"
+import words from 'an-array-of-french-words'
 
 window.onload = () => {
 	const dict: any = words
-	const resultatDOM = document.querySelector(".resultat")
-	const tutorialDOM = document.querySelector(".tutorial")
-	const tutoinputDOM = tutorialDOM.querySelector(".tuto_input")
-	const input = <HTMLInputElement>document.querySelector(".chars_input")
-	const isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+	const resultatDOM = document.querySelector('.resultat') as HTMLParagraphElement
+	const tutorialDOM = document.querySelector('.tutorial') as HTMLDivElement
+	const tutoinputDOM = tutorialDOM.querySelector('.tuto_input') as HTMLParagraphElement
+	const input = <HTMLInputElement>document.querySelector('.chars_input')
+	const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
 	let count = 0
 	let repCount = 0
@@ -15,21 +15,21 @@ window.onload = () => {
 	let arrayDeReponses: string[] = []
 
 	// Fini chargement
-	input.classList.remove("loading")
-	input.value = ""
+	input.classList.remove('loading')
+	input.value = ''
 
 	if (isMobile) {
-		tutoinputDOM.innerText = "écris en haut, le plus petit mot est trouvé"
+		tutoinputDOM.innerText = 'écris en haut, le plus petit mot est trouvé'
 		input.classList.add('onMobile')
 	}
 
 	// Charge le tuto si pas déjà supprimé
 	if (!localStorage.closeTutorial) {
-		tutorialDOM.className = "tutorial open"
+		tutorialDOM.className = 'tutorial open'
 
-		document.querySelector(".tutorial button").addEventListener("click", () => {
+		document.querySelector('.tutorial button').addEventListener('click', () => {
 			localStorage.closeTutorial = true
-			tutorialDOM.className = "tutorial"
+			tutorialDOM.className = 'tutorial'
 		})
 	}
 
@@ -50,7 +50,7 @@ window.onload = () => {
 			count = 0
 			repCount = 0
 			lastLength = chars.length
-			resultatDOM.innerText = ""
+			resultatDOM.innerText = ''
 			arrayDeReponses = tempReponses.sort((a, b) => a.length - b.length)
 			displayFoundWord(arrayDeReponses[0], chars)
 		}
@@ -58,7 +58,7 @@ window.onload = () => {
 
 	// Coupe le résultat en 3 pour highlight l'input
 	function displayFoundWord(result: string, chars?: string) {
-		resultatDOM.innerText = ""
+		resultatDOM.innerText = ''
 
 		if (result !== undefined) {
 			const searchChar = chars !== undefined ? chars : input.value
@@ -69,12 +69,12 @@ window.onload = () => {
 			]
 
 			splitWord.forEach((str) => {
-				const span = document.createElement("span")
+				const span = document.createElement('span')
 				span.innerText = str
 				resultatDOM.appendChild(span)
 			})
 		} else {
-			resultatDOM.innerText = " ... "
+			resultatDOM.innerText = ' ... '
 		}
 	}
 
@@ -83,12 +83,12 @@ window.onload = () => {
 		const repsLen = arrayDeReponses.length
 		const addDots = () =>
 			Array((repCount - repsLen) % 4)
-				.fill(".")
-				.join("")
+				.fill('.')
+				.join('')
 
 		if (repsLen > 0)
 			repCount >= repsLen
-				? (resultatDOM.innerText = "plus de mots" + addDots())
+				? (resultatDOM.innerText = 'plus de mots' + addDots())
 				: displayFoundWord(arrayDeReponses[repCount])
 	}
 
@@ -99,8 +99,8 @@ window.onload = () => {
 
 		if (retourApresDeuxSec) {
 			arrayDeReponses = []
-			resultatDOM.innerText = "encore une fois !"
-			input.value = ""
+			resultatDOM.innerText = 'encore une fois !'
+			input.value = ''
 		}
 	}
 
@@ -119,5 +119,5 @@ window.onload = () => {
 		}
 	}
 
-	document.addEventListener("keypress", () => input.focus())
+	document.addEventListener('keypress', () => input.focus())
 }
