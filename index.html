@@ -11,8 +11,12 @@
 		<link rel="stylesheet" href="style.scss" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" />
 
+		<meta
+			name="description"
+			content="Voici comment j'ai gagné +320000 mots de vocabulaire avec cette astuce hors du commun "
+		/>
+
 		<title>BombParty Genius</title>
-		<script src="index.ts" defer></script>
 	</head>
 	<body>
 		<main>
@@ -39,13 +43,15 @@
 
 		<script>
 			setTimeout(() => {
-				const dom = document.querySelector(".chars_input")
+				const dom = document.querySelector('.chars_input')
 
-				if (dom.classList.contains("loading")) {
+				if (dom.classList.contains('loading')) {
 					dom.style.opacity = 1
-					dom.innerHTML = "le dico charge"
+					dom.innerHTML = 'le dico charge'
 				}
 			}, 1000)
 		</script>
+
+		<script type="module" src="index.ts" defer></script>
 	</body>
 </html>

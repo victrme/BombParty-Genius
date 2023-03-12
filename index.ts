@@ -27,7 +27,7 @@ window.onload = () => {
 	if (!localStorage.closeTutorial) {
 		tutorialDOM.className = 'tutorial open'
 
-		document.querySelector('.tutorial button').addEventListener('click', () => {
+		document.querySelector('.tutorial button')?.addEventListener('click', () => {
 			localStorage.closeTutorial = true
 			tutorialDOM.className = 'tutorial'
 		})
