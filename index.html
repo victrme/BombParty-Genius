@@ -3,20 +3,24 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#333333" />
+		<link rel="apple-touch-icon" sizes="180x180" href="src/icons/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="src/icons/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="src/icons/favicon-16x16.png" />
+		<link rel="mask-icon" href="src/icons/safari-pinned-tab.svg" color="#333333" />
 		<meta name="theme-color" content="#333333" />
-		<link rel="stylesheet" href="style.scss" />
+		<link rel="stylesheet" href="src/style.scss" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" />
 
+		<meta
+			name="description"
+			content="Voici comment j'ai gagné +320000 mots de vocabulaire avec cette astuce hors du commun "
+		/>
+
 		<title>BombParty Genius</title>
-		<script src="index.ts" defer></script>
 	</head>
 	<body>
 		<main>
-			<input type="text" name="chars_input" pattern="[A-Za-z]+" class="chars_input loading" />
+			<input type="text" name="chars_input" pattern="[A-Za-z]+" class="chars_input" />
 			<p class="resultat">Tapez votre syllabe !</p>
 		</main>
 
@@ -37,15 +41,6 @@
 			</p>
 		</div>
 
-		<script>
-			setTimeout(() => {
-				const dom = document.querySelector(".chars_input")
-
-				if (dom.classList.contains("loading")) {
-					dom.style.opacity = 1
-					dom.innerHTML = "le dico charge"
-				}
-			}, 1000)
-		</script>
+		<script type="module" src="src/index.ts" defer></script>
 	</body>
 </html>
