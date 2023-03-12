@@ -1,11 +1,17 @@
-import words from 'an-array-of-french-words'
-
-window.onload = () => {
-	const dict: any = words
+window.onload = async () => {
 	const resultatDOM = document.querySelector('.resultat') as HTMLParagraphElement
 	const tutorialDOM = document.querySelector('.tutorial') as HTMLDivElement
-	const tutoinputDOM = tutorialDOM.querySelector('.tuto_input') as HTMLParagraphElement
-	const input = <HTMLInputElement>document.querySelector('.chars_input')
+	const tutoinputDOM = document.querySelector('.tuto_input') as HTMLParagraphElement
+	const inputDOM = document.querySelector('.chars_input') as HTMLInputElement
+
+	const loadtimeout = setTimeout(() => {
+		if (inputDOM) {
+			inputDOM.classList.add('loading')
+			inputDOM.value = 'le dico charge'
+		}
+	}, 1000)
+
+	const dict: any = await import('an-array-of-french-words')
 	const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
 	let count = 0
@@ -15,21 +21,23 @@ window.onload = () => {
 	let arrayDeReponses: string[] = []
 
 	// Fini chargement
-	input.classList.remove('loading')
-	input.value = ''
+	clearTimeout(loadtimeout)
+	inputDOM?.classList.remove('loading')
+	inputDOM.style.opacity = '1'
+	inputDOM.value = ''
 
 	if (isMobile) {
 		tutoinputDOM.innerText = 'écris en haut, le plus petit mot est trouvé'
-		input.classList.add('onMobile')
+		inputDOM?.classList.add('onMobile')
 	}
 
 	// Charge le tuto si pas déjà supprimé
 	if (!localStorage.closeTutorial) {
-		tutorialDOM.className = 'tutorial open'
+		tutorialDOM?.classList.add('open')
 
 		document.querySelector('.tutorial button')?.addEventListener('click', () => {
 			localStorage.closeTutorial = true
-			tutorialDOM.className = 'tutorial'
+			tutorialDOM?.classList.remove('open')
 		})
 	}
 
@@ -50,74 +58,81 @@ window.onload = () => {
 			count = 0
 			repCount = 0
 			lastLength = chars.length
-			resultatDOM.innerText = ''
+			resultatDOM.textContent = ''
 			arrayDeReponses = tempReponses.sort((a, b) => a.length - b.length)
-			displayFoundWord(arrayDeReponses[0], chars)
+			displayFoundWord(arrayDeReponses[0])
 		}
 	}
 
 	// Coupe le résultat en 3 pour highlight l'input
-	function displayFoundWord(result: string, chars?: string) {
-		resultatDOM.innerText = ''
+	function displayFoundWord(result: string) {
+		const keyChars = inputDOM.value
 
-		if (result !== undefined) {
-			const searchChar = chars !== undefined ? chars : input.value
-			const splitWord = [
-				result.slice(0, result.indexOf(searchChar)),
-				searchChar,
-				result.slice(result.indexOf(searchChar) + searchChar.length, result.length),
-			]
+		resultatDOM.textContent = ''
 
-			splitWord.forEach((str) => {
+		if (result && keyChars.length > 1) {
+			const wordStart = result.slice(0, result.indexOf(keyChars))
+			const wordEnd = result.slice(result.indexOf(keyChars) + keyChars.length, result.length)
+
+			;[wordStart, keyChars, wordEnd].forEach((str) => {
 				const span = document.createElement('span')
-				span.innerText = str
-				resultatDOM.appendChild(span)
+				span.textContent = str
+				resultatDOM?.appendChild(span)
 			})
-		} else {
-			resultatDOM.innerText = ' ... '
+
+			return
 		}
+
+		resultatDOM.textContent = ' ... '
 	}
 
 	function findMoreWords() {
 		repCount++
-		const repsLen = arrayDeReponses.length
+
 		const addDots = () =>
-			Array((repCount - repsLen) % 4)
+			Array((repCount - arrayDeReponses.length) % 4)
 				.fill('.')
 				.join('')
 
-		if (repsLen > 0)
-			repCount >= repsLen
-				? (resultatDOM.innerText = 'plus de mots' + addDots())
-				: displayFoundWord(arrayDeReponses[repCount])
+		if (arrayDeReponses.length === 0) {
+			resultatDOM.textContent = 'pas de mots' + addDots()
+			return
+		}
+
+		if (arrayDeReponses.length <= repCount) {
+			resultatDOM.textContent = 'plus de mots' + addDots()
+			return
+		}
+
+		displayFoundWord(arrayDeReponses[repCount])
 	}
 
-	// Efface les anciens chars après 2s
-	// keydown pour éviter un effacement saccadé
-	input.onkeydown = (e) => {
-		const retourApresDeuxSec = keypressTime > 0 && Date.now() - keypressTime > 2000 && e.keyCode === 8
+	inputDOM?.addEventListener('input', (e) => {
+		// Efface les anciens chars après 2s
+		const inputType = (e as InputEvent).inputType
+		const lastPressTime = Date.now() - keypressTime > 2000
+		const retourApresDeuxSec = keypressTime > 0 && lastPressTime && inputType === 'deleteContentBackward'
 
 		if (retourApresDeuxSec) {
 			arrayDeReponses = []
-			resultatDOM.innerText = 'encore une fois !'
-			input.value = ''
+			inputDOM.value = ''
+			resultatDOM.textContent = 'encore une fois !'
 		}
-	}
 
-	input.onkeypress = (e) => {
-		const key = e.keyCode
-		const espace = key === 32
-		const lettre = (key > 96 && key < 122) || (key > 223 && key < 246)
+		if (inputType.match(/insertText|deleteContentBackward/g)) {
+			searchForWords(inputDOM.value)
+			return
+		}
+	})
 
-		if (espace) {
+	inputDOM.addEventListener('keydown', (e) => {
+		if (e.code === 'Space') {
 			findMoreWords()
-			return false
-		} else if (lettre) {
-			searchForWords(input.value + e.key)
-		} else {
-			return false
+			e.preventDefault()
 		}
-	}
+	})
 
-	document.addEventListener('keypress', () => input.focus())
+	document.addEventListener('keydown', () => {
+		inputDOM?.focus()
+	})
 }
