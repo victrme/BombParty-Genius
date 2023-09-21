@@ -1,13 +1,12 @@
 body {
 	background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj48ZGVmcz48cGF0dGVybiBpZD0icGF0dGVybiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgNDAsNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSgxMzUpICI+PHJlY3QgaWQ9InBhdHRlcm4tYmFja2dyb3VuZCIgd2lkdGg9IjQwMCUiIGhlaWdodD0iNDAwJSIgZmlsbD0icmdiYSg0MiwgNjcsIDEwMSwxKSIgc3R5bGU9Ii0tZGFya3JlYWRlci1pbmxpbmUtZmlsbDojMzIzZjRmOyI+PC9yZWN0PiA8Y2lyY2xlIGZpbGw9InJnYmEoNDQsIDgyLCAxMzAsMSkiIGN4PSIyMCIgY3k9IjIwIiByPSIyIj48L2NpcmNsZT48Y2lyY2xlIGZpbGw9InJnYmEoNDQsIDgyLCAxMzAsMSkiIGN4PSIyMCIgY3k9Ii0yMCIgcj0iMiI+PC9jaXJjbGU+PGNpcmNsZSBmaWxsPSJyZ2JhKDQzLCAxMDgsIDE3NiwxKSIgY3g9IjAiIGN5PSIyMCIgcj0iMSI+PC9jaXJjbGU+PGNpcmNsZSBmaWxsPSJyZ2JhKDQzLCAxMDgsIDE3NiwxKSIgY3g9IjIwIiBjeT0iMCIgcj0iMSI+PC9jaXJjbGU+PGNpcmNsZSBmaWxsPSJyZ2JhKDQzLCAxMDgsIDE3NiwxKSIgY3g9IjQwIiBjeT0iMjAiIHI9IjEiPjwvY2lyY2xlPjxjaXJjbGUgZmlsbD0icmdiYSg0MywgMTA4LCAxNzYsMSkiIGN4PSIyMCIgY3k9IjQwIiByPSIxIj48L2NpcmNsZT48L3BhdHRlcm4+ICA8L2RlZnM+IDxyZWN0IGZpbGw9InVybCgjcGF0dGVybikiIGhlaWdodD0iMTAwJSIgd2lkdGg9IjEwMCUiPjwvcmVjdD48L3N2Zz4=');
-	background-repeat: repeat;
-	background-size: 50%;
 	margin: 0;
 }
 
 body,
 button,
 input {
+	color: white;
 	font-family: 'Source Code Pro Variable', monospace;
 }
 
@@ -32,7 +31,6 @@ main p,
 main .chars_input {
 	margin: 0;
 	padding: 40px;
-	color: white;
 	font-size: 50px;
 	line-height: 50px;
 	font-weight: bold;
@@ -63,12 +61,12 @@ main input.loading {
 
 .note {
 	position: fixed;
-	bottom: 1em;
-	padding: 1em;
-	width: calc(100% - 2em);
+	bottom: 0;
+	width: 100%;
+	padding: 2em;
 	font-size: 13px;
 	text-align: center;
-	color: rgba($color: #fff, $alpha: 0.8);
+	box-sizing: border-box;
 }
 
 .tutorial {
@@ -76,9 +74,10 @@ main input.loading {
 	justify-content: space-around;
 	align-items: center;
 	text-align: left;
-	background-color: rgba($color: #000000, $alpha: 0.3);
-	padding: 1.5em 2em;
+	background-color: #38506f;
 	margin: 1em;
+	padding: 2em;
+	padding-left: 3em;
 }
 
 .tutorial.open {
