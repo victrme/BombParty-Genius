@@ -1,3 +1,5 @@
+import '@fontsource-variable/source-code-pro'
+
 window.onload = async () => {
 	const resultatDOM = document.querySelector('.resultat') as HTMLParagraphElement
 	const tutorialDOM = document.querySelector('.tutorial') as HTMLDivElement
