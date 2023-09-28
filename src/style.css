@@ -1,15 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;900&display=swap');
-
 body {
 	background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj48ZGVmcz48cGF0dGVybiBpZD0icGF0dGVybiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgNDAsNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSgxMzUpICI+PHJlY3QgaWQ9InBhdHRlcm4tYmFja2dyb3VuZCIgd2lkdGg9IjQwMCUiIGhlaWdodD0iNDAwJSIgZmlsbD0icmdiYSg0MiwgNjcsIDEwMSwxKSIgc3R5bGU9Ii0tZGFya3JlYWRlci1pbmxpbmUtZmlsbDojMzIzZjRmOyI+PC9yZWN0PiA8Y2lyY2xlIGZpbGw9InJnYmEoNDQsIDgyLCAxMzAsMSkiIGN4PSIyMCIgY3k9IjIwIiByPSIyIj48L2NpcmNsZT48Y2lyY2xlIGZpbGw9InJnYmEoNDQsIDgyLCAxMzAsMSkiIGN4PSIyMCIgY3k9Ii0yMCIgcj0iMiI+PC9jaXJjbGU+PGNpcmNsZSBmaWxsPSJyZ2JhKDQzLCAxMDgsIDE3NiwxKSIgY3g9IjAiIGN5PSIyMCIgcj0iMSI+PC9jaXJjbGU+PGNpcmNsZSBmaWxsPSJyZ2JhKDQzLCAxMDgsIDE3NiwxKSIgY3g9IjIwIiBjeT0iMCIgcj0iMSI+PC9jaXJjbGU+PGNpcmNsZSBmaWxsPSJyZ2JhKDQzLCAxMDgsIDE3NiwxKSIgY3g9IjQwIiBjeT0iMjAiIHI9IjEiPjwvY2lyY2xlPjxjaXJjbGUgZmlsbD0icmdiYSg0MywgMTA4LCAxNzYsMSkiIGN4PSIyMCIgY3k9IjQwIiByPSIxIj48L2NpcmNsZT48L3BhdHRlcm4+ICA8L2RlZnM+IDxyZWN0IGZpbGw9InVybCgjcGF0dGVybikiIGhlaWdodD0iMTAwJSIgd2lkdGg9IjEwMCUiPjwvcmVjdD48L3N2Zz4=');
 	margin: 0;
-	background-repeat: repeat;
-	background-size: 50%;
 }
 
 body,
-button {
-	font-family: 'Source Code Pro', monospace;
+button,
+input {
+	color: white;
+	font-family: 'Source Code Pro Variable', monospace;
+}
+
+@keyframes loading {
+	0% {
+		color: lightcoral;
+	}
+	100% {
+		color: lightyellow;
+	}
 }
 
 main {
@@ -18,100 +25,88 @@ main {
 	align-items: center;
 	justify-content: center;
 	height: 80vh;
+}
 
-	@keyframes loading {
-		0% {
-			color: lightcoral;
-		}
-		100% {
-			color: lightyellow;
-		}
-	}
+main p,
+main .chars_input {
+	margin: 0;
+	padding: 40px;
+	font-size: 50px;
+	line-height: 50px;
+	font-weight: bold;
+	text-align: center;
+	background-color: transparent;
+	border: none;
+	outline: none;
+}
 
-	p,
-	.chars_input {
-		margin: 0;
-		padding: 40px;
-		color: white;
-		font-size: 50px;
-		line-height: 50px;
-		font-weight: bold;
-		text-align: center;
-		border: none;
-		background-color: transparent;
-		font-family: 'Source Code Pro', monospace;
-		outline: none;
-	}
+main p {
+	display: inline-block;
+	word-break: break-all;
+}
 
-	p {
-		display: inline-block;
-		word-break: break-all;
-	}
+main input {
+	opacity: 0;
+	transition: opacity 0.8s;
+}
 
-	input {
-		opacity: 0;
-		transition: opacity 0.8s;
+main input.loading {
+	opacity: 1;
+	animation: loading 0.5s linear infinite alternate forwards;
+}
 
-		&.loading {
-			opacity: 1;
-			animation: loading 0.5s linear infinite alternate forwards;
-		}
-	}
-
-	.resultat span:nth-child(2) {
-		color: lightgreen;
-	}
+.resultat span:nth-child(2) {
+	color: lightgreen;
 }
 
 .note {
 	position: fixed;
-	bottom: 1em;
-	padding: 1em;
-	width: calc(100% - 2em);
+	bottom: 0;
+	width: 100%;
+	padding: 2em;
 	font-size: 13px;
 	text-align: center;
-	color: rgba($color: #fff, $alpha: 0.8);
+	box-sizing: border-box;
+}
 
-	.tutorial {
-		display: none;
-		justify-content: space-around;
-		align-items: center;
-		text-align: left;
-		background-color: rgba($color: #000000, $alpha: 0.3);
-		padding: 1.5em 2em;
-		margin: 1em;
+.tutorial {
+	display: none;
+	justify-content: space-around;
+	align-items: center;
+	text-align: left;
+	background-color: #38506f;
+	margin: 1em;
+	padding: 2em;
+	padding-left: 3em;
+}
 
-		&.open {
-			display: inline-flex;
-		}
+.tutorial.open {
+	display: inline-flex;
+}
 
-		code {
-			background-color: #1a1a1a;
-			padding: 3px 5px;
-			border-radius: 3px;
-			font-size: 9px;
-		}
+.tutorial code {
+	background-color: #1a1a1a;
+	padding: 3px 5px;
+	border-radius: 3px;
+	font-size: 9px;
+}
 
-		button {
-			background-color: transparent;
-			border: none;
-			color: lightsalmon;
-			cursor: pointer;
-			padding: 0.5em 1em;
-			margin-left: 3em;
-			outline: none;
-		}
+.tutorial button {
+	background-color: transparent;
+	border: none;
+	color: lightsalmon;
+	cursor: pointer;
+	padding: 0.5em 1em;
+	margin-left: 3em;
+	outline: none;
+}
 
-		button:hover {
-			text-decoration: underline;
-		}
-	}
+.tutorial button:hover {
+	text-decoration: underline;
+}
 
-	.credit {
-		a {
-			color: lightsalmon;
-		}
-	}
+.credit a {
+	color: lightsalmon;
 }
 
 @media screen and (max-width: 700px) {
@@ -124,16 +119,14 @@ main {
 
 	.note {
 		font-size: 10px;
+	}
 
-		.tutorial {
-			code {
-				font-size: 7px;
-			}
+	.tutorial code {
+		font-size: 7px;
+	}
 
-			button {
-				font-size: 10px;
-			}
-		}
+	.tutorial button {
+		font-size: 10px;
 	}
 }
 

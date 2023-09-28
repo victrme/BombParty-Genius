@@ -1,3 +1,5 @@
+import '@fontsource-variable/source-code-pro'
+
 window.onload = async () => {
 	const resultatDOM = document.querySelector('.resultat') as HTMLParagraphElement
 	const tutorialDOM = document.querySelector('.tutorial') as HTMLDivElement
@@ -11,7 +13,7 @@ window.onload = async () => {
 		}
 	}, 1000)
 
-	const dict: any = await import('an-array-of-french-words')
+	const dict: any = (await import('an-array-of-french-words')).default
 	const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
 	let count = 0
@@ -134,5 +136,12 @@ window.onload = async () => {
 
 	document.addEventListener('keydown', () => {
 		inputDOM?.focus()
+	})
+
+	document.addEventListener('click', (ev) => {
+		const path = ev.composedPath() as Element[]
+		if (path[0]?.tagName === 'MAIN') {
+			inputDOM?.focus()
+		}
 	})
 }
